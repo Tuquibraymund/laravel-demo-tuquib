@@ -45,6 +45,7 @@
             <a href="{{route('gallery')}}" class="btn btn-primary btn-custom">Gallery</a>
             <a href="{{route('index')}}" class="btn btn-secondary btn-custom">Index/Home</a>
             <a href="{{route('services')}}" class="btn btn-success btn-custom">Services</a>
+            <a href="{{route('calculator')}}" class="btn btn-success btn-custom">Calculator</a>
         </div>
     </div>
 

@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        
+        $middleware->alias([
+            'login.middleware' => \App\Http\Middleware\ValidateLogin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
