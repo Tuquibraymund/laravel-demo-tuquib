@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function(){
 
         //route2
         Route::controller(EventController::class)->group(function (){
+            Route::get('/main-dashboard','index')->name('main-dashboard');
             Route::post('/add_event', 'add_event')->name('add_event');
         });
 

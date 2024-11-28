@@ -7,6 +7,18 @@ use Illuminate\Validation\ValidationException;
 
 class EventController extends Controller
 {
+
+    public function index()
+    {
+        $events = Event::all();
+        return view('design.dashboard',compact('events'));
+    }
+
+
+
+
+
+
     public function add_event(Request $request)
     {
         $request->validate([

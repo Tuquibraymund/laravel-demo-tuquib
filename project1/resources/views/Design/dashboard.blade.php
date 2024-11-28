@@ -7,6 +7,20 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="bg-gray-100 font-sans">
+
+    @if(session('success'))
+        <x-sweetalert type="success" :message="session('success')"/>
+    @endif    
+
+    @if(session('info'))
+        <x-sweetalert type="info" :message="session('info')"/>
+    @endif  
+    
+    @if(session('error'))
+        <x-sweetalert type="error" :message="session('error')"/>
+    @endif    
+
+
     <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
         @if(Auth::user()->hasRole('admin'))
         <h1 class="text-2xl font-bold text-center mb-5">Welcome ADMIN: <span class="text-red-500">{{Auth::user()->name}}</span></h1>
@@ -48,6 +62,31 @@
                 </div>                        
             </div>
         </div>
+
+        <table class="min-w-full mt-6 bg-white border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border border-black px-4 py-2">ID</th>
+                    <th class="border border-black px-4 py-2">Event Name</th>
+                    <th class="border border-black px-4 py-2">Event Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($events->isEmpty())
+                    <tr>
+                        <td colspan="3" class="text-center border border-black py-2">No data available</td>
+                    </tr>
+                @else
+                    @foreach($events as $event)
+                        <tr class="border border-black">
+                            <td class="border border-black px-4 py-2">{{ $event->id }}</td>
+                            <td class="border border-black px-4 py-2">{{ $event->event_name }}</td>
+                            <td class="border border-black px-4 py-2">{{ $event->event_description }}</td>
+                        </tr>
+                    @endforeach
+                @endif
+            </tbody>
+        </table> 
         @elseif(Auth::user()->hasRole('faculty'))
             <h1 class="text-2xl font-bold mb-5">Welcome FACULTY: <span class="text-red-500">{{Auth::user()->name}}</span></h1>
         @else
@@ -63,5 +102,34 @@
             </x-dropdown-link>
         </form>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </body>
 </html>
