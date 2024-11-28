@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalculatorController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/sdasd', function () {
     return view('welcome');
 });
 
@@ -60,6 +61,88 @@ Route::post('/add', [CalculatorController::class, 'add']);
 Route::post('/sub', [CalculatorController::class, 'sub']);
 Route::post('/multiply', [CalculatorController::class, 'multiply']);
 Route::post('/divide', [CalculatorController::class, 'divide']);
+
+// Route::get('/LogInna',function(){
+//     return view('itequipment.dashboard');
+// })->name('form_login');
+
+// Route::post('/LogInna', function (){
+//     return view('itequipment.dashboard');
+// })->middleware('login.middleware');
+
+// Route::get('/dashboard1', function (){
+//     return view('itequipment.dashboard1');
+// })->name('gotodashboard1');
+
+
+
+
+
+
+
+Route::get('/', function (){
+    return view('design.logindesign');
+})->name('form_login');
+
+
+Route::get('/signup',function(){
+    return view('Design.signupdesign');
+})->name('form_signup');
+
+
+
+Route::middleware(['auth'])->group(function(){
+    //ADMIN ROUTES
+    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function(){
+
+        //route1
+        Route::get('/main-dashboard',function(){
+            return view('Design.dashboard');
+        })->name('main-dashboard');
+
+        //route2
+        Route::controller(EventController::class)->group(function (){
+            Route::post('/add_event', 'add_event')->name('add_event');
+        });
+
+    });
+
+    //REGISTRAR ROUTE
+    Route::middleware(['role:registrar'])->prefix('registrar')->name('registrar.')->group(function(){
+
+        Route::get('/main-dashboard',function(){
+            return view('Design.dashboard');
+        })->name('main-dashboard');
+
+    });
+
+    //FACULTY ROUTE
+    Route::middleware(['role:faculty'])->prefix('faculty')->name('faculty.')->group(function(){
+
+        Route::get('/main-dashboard',function(){
+            return view('Design.dashboard');
+        })->name('main-dashboard');
+
+    });
+
+
+
+
+});
+
+
+
+// Route::get('/dashboard', function () {
+//     return view('Design.dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+
+
+
+
+
 
 
 Route::get('/showLogin', function (){

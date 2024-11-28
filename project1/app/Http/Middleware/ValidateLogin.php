@@ -23,7 +23,7 @@ class ValidateLogin
 
             if ($validateData['username'] === $username && $validateData['password'] === $password){
                 // return redirect()->route('gotodashboard');
-                return redirect()->route('gotodashboard')->with('confirm','LOGIN SUCCESSFULLY');
+                return redirect()->route('gotodashboard1')->with('confirm','LOGIN SUCCESSFULLY');
             }else{
                 return redirect()->back()->withErrors([$username => 'username or password is incorrect']);
             }
