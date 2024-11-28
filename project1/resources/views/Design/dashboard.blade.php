@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     @vite(['resources/css/app.css','resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/solid.min.css">
 </head>
 <body class="bg-gray-100 font-sans">
 
@@ -63,30 +67,34 @@
             </div>
         </div>
 
-        <table class="min-w-full mt-6 bg-white border border-gray-300">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th class="border border-black px-4 py-2">ID</th>
-                    <th class="border border-black px-4 py-2">Event Name</th>
-                    <th class="border border-black px-4 py-2">Event Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if($events->isEmpty())
+        <div class="overflow-hidden rounded-lg shadow-lg mt-6">
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead class="bg-blue-600 text-white">
                     <tr>
-                        <td colspan="3" class="text-center border border-black py-2">No data available</td>
+                        <th class="border border-black px-4 py-2 text-left">ID</th>
+                        <th class="border border-black px-4 py-2 text-left">Event Name</th>
+                        <th class="border border-black px-4 py-2 text-left">Event Description</th>
+                        <th class="border border-black px-4 py-2 text-left">Action</th>
                     </tr>
-                @else
-                    @foreach($events as $event)
-                        <tr class="border border-black">
-                            <td class="border border-black px-4 py-2">{{ $event->id }}</td>
-                            <td class="border border-black px-4 py-2">{{ $event->event_name }}</td>
-                            <td class="border border-black px-4 py-2">{{ $event->event_description }}</td>
+                </thead>
+                <tbody>
+                    @if($events->isEmpty())
+                        <tr>
+                            <td colspan="3" class="text-center border border-black py-2 text-gray-500 italic">No data available</td>
                         </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table> 
+                    @else
+                        @foreach($events as $event)
+                            <tr class="border border-black hover:bg-gray-100 transition duration-200">
+                                <td class="border border-black px-4 py-2">{{ $event->id }}</td>
+                                <td class="border border-black px-4 py-2">{{ $event->event_name }}</td>
+                                <td class="border border-black px-4 py-2">{{ $event->event_description }}</td>
+                                <td class="border border-black px-4 py-2 text-center"><i class="fa-solid fa-pen-to-square"></i>   |   <i class="fa-solid fa-trash-can"></i></td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+        </div>
         @elseif(Auth::user()->hasRole('faculty'))
             <h1 class="text-2xl font-bold mb-5">Welcome FACULTY: <span class="text-red-500">{{Auth::user()->name}}</span></h1>
         @else
