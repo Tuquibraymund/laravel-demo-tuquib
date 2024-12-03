@@ -33,17 +33,17 @@
             <button @click="open = true" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
                 Add Event
             </button>
-            <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black opacity-50 z-50">
-                <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg">
+            <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black opacity-100 z-50">
+                <div class="bg-black p-6 rounded-lg shadow-lg max-w-lg border border-gray-500">
                     <div class="flex justify-between items-center mb-4">
-                        <p class="text-xl font-bold">Add Event</p>
+                        <p class="text-xl font-bold text-white">Add Event</p>
                         <button @click="open = false" class="text-black">X</button>
                     </div>
                     <div>
                         <form action="{{ route('admin.add_event')}}" method="POST" class="mt-5">
                             @csrf
                             <div class="mb-4">
-                                <label for="event_name" class="block text-sm font-medium text-gray-700">Event Name</label>
+                                <label for="event_name" class="block text-sm font-medium text-white">Event Name</label>
                                 <input type="text"
                                        name="event_name"
                                        id="event_name"
@@ -51,7 +51,7 @@
                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" required> 
                             </div>
                             <div class="mb-4">
-                                <label for="event_description" class="block text-sm font-medium text-gray-700">Event Description</label>
+                                <label for="event_description" class="block text-sm font-medium text-white">Event Description</label>
                                 <input type="text"
                                        name="event_description"
                                        id="event_description"
@@ -88,7 +88,53 @@
                                 <td class="border border-black px-4 py-2">{{ $event->id }}</td>
                                 <td class="border border-black px-4 py-2">{{ $event->event_name }}</td>
                                 <td class="border border-black px-4 py-2">{{ $event->event_description }}</td>
-                                <td class="border border-black px-4 py-2 text-center"><i class="fa-solid fa-pen-to-square"></i>   |   <i class="fa-solid fa-trash-can"></i></td>
+                                <td class="border border-black px-4 py-2 text-center">
+                                    
+                                    
+                                    {{-- <a href=""> </a>  |   <i class="fa-solid fa-trash-can"></i> --}}
+
+
+                                    <div x-data="{open: false}" class="text-center">
+                                        <button @click="open = true" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                        <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black opacity-100 z-50">
+                                            <div class="bg-black p-6 rounded-lg shadow-lg max-w-lg border border-gray-500"> <!-- Added border class here -->
+                                                <div class="flex justify-between items-center mb-4">
+                                                    <p class="text-xl font-bold text-white">Edit Event</p>
+                                                    <button @click="open = false" class="text-white">X</button>
+                                                </div>
+                                                <div>
+                                                    <form action="{{ route('admin.add_event')}}" method="POST" class="mt-5">
+                                                        @csrf
+                                                        <div class="mb-4">
+                                                            <label for="event_name" class="block text-sm font-medium text-gray-300">Event Name</label>
+                                                            <input type="text"
+                                                                name="event_name"
+                                                                id="event_name"
+                                                                value="{{ $event->event_name }}"
+                                                                class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" required> 
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <label for="event_description" class="block text-sm font-medium text-gray-300">Event Description</label>
+                                                            <input type="text"
+                                                                name="event_description"
+                                                                id="event_description"
+                                                                value="{{ $event->event_description }}"
+                                                                class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" required> 
+                                                        </div>
+                                                        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+                                                            EDIT EVENT
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>                        
+                                        </div>
+                                    </div>
+                                    
+                                    
+
+                                </td>
                             </tr>
                         @endforeach
                     @endif
