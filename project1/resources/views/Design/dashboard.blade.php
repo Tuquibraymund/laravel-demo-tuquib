@@ -105,8 +105,9 @@
                                                     <button @click="open = false" class="text-white">X</button>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('admin.add_event')}}" method="POST" class="mt-5">
+                                                    <form action="{{ route('admin.update_event', $event->id)}}" method="POST" class="mt-5">
                                                         @csrf
+                                                        @method('PUT')
                                                         <div class="mb-4">
                                                             <label for="event_name" class="block text-sm font-medium text-gray-300">Event Name</label>
                                                             <input type="text"

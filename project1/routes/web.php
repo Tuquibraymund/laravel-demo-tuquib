@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function(){
         Route::controller(EventController::class)->group(function (){
             Route::get('/main-dashboard','index')->name('main-dashboard');
             Route::post('/add_event', 'add_event')->name('add_event');
+            Route::put('/update_event/{id}','update_event')->name('update_event');
         });
 
     });
