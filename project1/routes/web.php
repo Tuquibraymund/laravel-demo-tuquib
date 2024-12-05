@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/sdasd', function () {
@@ -105,7 +106,21 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/main-dashboard','index')->name('main-dashboard');
             Route::post('/add_event', 'add_event')->name('add_event');
             Route::put('/update_event/{id}','update_event')->name('update_event');
+            Route::delete('/delete_event/{id}','delete_event')->name('delete_event');
+            
         });
+
+        Route::controller(CategoryController::class)->group(function (){
+            Route::get('/category','index')->name('category');
+            Route::post('/add_category', 'add_category')->name('add_category');
+            Route::put('/update_category/{id}','update_category')->name('update_category');
+            Route::delete('/delete_category/{id}','delete_category')->name('delete_category');
+            Route::get('/dashboard','index')->name('dashboard');
+            
+        });
+
+
+        
 
     });
 

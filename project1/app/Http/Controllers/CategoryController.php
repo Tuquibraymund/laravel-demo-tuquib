@@ -2,47 +2,43 @@
 
 namespace App\Http\Controllers;
 use \App\Models\Event;
+use \App\Models\Category;
+
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
-class EventController extends Controller
+class CategoryController extends Controller
 {
-
     public function index()
     {
+        $categories = Category::all();
         $events = Event::all();
-        return view('design.dashboard',compact('events'));
+        return view('design.category',compact('categories','events'));
     }
-
-
-
-
-
-
-    public function add_event(Request $request)
+    public function add_category(Request $request)
     {
         try{
             $request->validate([
-                'event_name' => 'required|string|max:255',
-                'event_description' => 'required|string|max:255'
+                'event_category' => 'required|string|max:255',
+                'category_description' => 'required|string|max:255',
+                'event_id' => 'required|exists:events,id'
             ]);
 
-            Event::create([
-                'event_name' => $request->event_name,
-                'event_description' => $request->event_description,
+            Category::create([
+                'category_name' => $request->category_name,
+                'category_description' => $request->category_description,
             ]);
 
-            return redirect()->route('admin.main-dashboard')->with('success','Event Successfully Added');
+            return redirect()->route('admin.main-dashboard')->with('success','Category Successfully Added');
         } catch(\Exception $e){
 
-            return redirect()->route('admin.main-dashboard')->with('error','Event exist!');
+            return redirect()->route('admin.main-dashboard')->with('error','Category exist!');
         }
             
 
     }
 
 
-    public function update_event(Request $request, $id)
+    public function update_category(Request $request, $id)
     {
 
         $event = Event::findOrFail($id);
@@ -82,6 +78,5 @@ class EventController extends Controller
 
 
     }
-
 
 }

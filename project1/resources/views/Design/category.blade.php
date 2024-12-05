@@ -31,38 +31,49 @@
 
         <div x-data="{open: false}" class="text-center">
             <button @click="open = true" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-                Add Event
+                Add Category
             </button>
-            <a href="{{ route('admin.category')}}" class="text-center bg-blue-500 text-white py-2 px-2">
+            <a href="{{ route('admin.dashboard')}}" class="text-center bg-blue-500 text-white py-2 px-2">
                 Add Category
             </a>
             <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black opacity-100 z-50">
                 <div class="bg-black p-6 rounded-lg shadow-lg max-w-lg border border-gray-500">
                     <div class="flex justify-between items-center mb-4">
-                        <p class="text-xl font-bold text-white">Add Event</p>
+                        <p class="text-xl font-bold text-white">Add Category</p>
                         <button @click="open = false" class="text-black">X</button>
                     </div>
                     <div>
-                        <form action="{{ route('admin.add_event')}}" method="POST" class="mt-5">
+                        <form action="{{ route('admin.add_category')}}" method="POST" class="mt-5">
                             @csrf
+
+                            <select name="event_id" id="event_id">
+                                @if($categories->isEmpty())
+                                    <option value="">No Events Available</option>
+                                @else
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+
                             <div class="mb-4">
-                                <label for="event_name" class="block text-sm font-medium text-white">Event Name</label>
+                                <label for="category_name" class="block text-sm font-medium text-white">Category Name</label>
                                 <input type="text"
-                                       name="event_name"
-                                       id="event_name"
-                                       value="{{old('event_name')}}"
+                                       name="category_name"
+                                       id="category_name"
+                                       value="{{old('category_name')}}"
                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" required> 
                             </div>
                             <div class="mb-4">
-                                <label for="event_description" class="block text-sm font-medium text-white">Event Description</label>
+                                <label for="category_description" class="block text-sm font-medium text-white">Category Description</label>
                                 <input type="text"
-                                       name="event_description"
-                                       id="event_description"
-                                       value="{{old('event_description')}}"
+                                       name="category_description"
+                                       id="category_description"
+                                       value="{{old('category_description')}}"
                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" required> 
                             </div>
                             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
-                                ADD EVENT
+                                ADD Category
                             </button>
                         </form>
                     </div>
@@ -75,22 +86,24 @@
                 <thead class="bg-blue-600 text-white">
                     <tr>
                         <th class="border border-black px-4 py-2 text-left">ID</th>
-                        <th class="border border-black px-4 py-2 text-left">Event Name</th>
-                        <th class="border border-black px-4 py-2 text-left">Event Description</th>
+                        <th class="border border-black px-4 py-2 text-left">Category Name</th>
+                        <th class="border border-black px-4 py-2 text-left">Category Description</th>
+                        <th class="border border-black px-4 py-2 text-left">Event ID</th>
                         <th class="border border-black px-4 py-2 text-left">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if($events->isEmpty())
+                    @if($categories->isEmpty())
                         <tr>
                             <td colspan="3" class="text-center border border-black py-2 text-gray-500 italic">No data available</td>
                         </tr>
                     @else
-                        @foreach($events as $event)
+                        @foreach($categories as $category)
                             <tr class="border border-black hover:bg-gray-100 transition duration-200">
-                                <td class="border border-black px-4 py-2">{{ $event->id }}</td>
-                                <td class="border border-black px-4 py-2">{{ $event->event_name }}</td>
-                                <td class="border border-black px-4 py-2">{{ $event->event_description }}</td>
+                                <td class="border border-black px-4 py-2">{{ $category->id }}</td>
+                                <td class="border border-black px-4 py-2">{{ $category->category_name }}</td>
+                                <td class="border border-black px-4 py-2">{{ $category->category_description }}</td>
+                                <td class="border border-black px-4 py-2">{{ $category->event_id }}</td>
                                 <td class="border border-black px-4 py-2 text-center">
                                     
                                     
@@ -99,36 +112,36 @@
 
                                     <div x-data="{open: false}" class="text-center">
                                         <button @click="open = true" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            Category
                                         </button>
                                         <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black opacity-100 z-50">
                                             <div class="bg-black p-6 rounded-lg shadow-lg max-w-lg border border-gray-500"> <!-- Added border class here -->
                                                 <div class="flex justify-between items-center mb-4">
-                                                    <p class="text-xl font-bold text-white">Edit Event</p>
+                                                    <p class="text-xl font-bold text-white">Category Event</p>
                                                     <button @click="open = false" class="text-white">X</button>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('admin.update_event', $event->id)}}" method="POST" class="mt-5">
+                                                    <form action="{{ route('admin.update_category', $category->id)}}" method="POST" class="mt-5">
                                                         @csrf
                                                         @method('PUT')
                                                         <div class="mb-4">
-                                                            <label for="event_name" class="block text-sm font-medium text-gray-300">Event Name</label>
+                                                            <label for="category_name" class="block text-sm font-medium text-gray-300">Category Name</label>
                                                             <input type="text"
-                                                                name="event_name"
-                                                                id="event_name"
-                                                                value="{{ $event->event_name }}"
+                                                                name="category_name"
+                                                                id="category_name"
+                                                                value="{{ $category->category_name }}"
                                                                 class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" required> 
                                                         </div>
                                                         <div class="mb-4">
-                                                            <label for="event_description" class="block text-sm font-medium text-gray-300">Event Description</label>
+                                                            <label for="category_description" class="block text-sm font-medium text-gray-300">Category Description</label>
                                                             <input type="text"
-                                                                name="event_description"
-                                                                id="event_description"
-                                                                value="{{ $event->event_description }}"
+                                                                name="category_description"
+                                                                id="category_description"
+                                                                value="{{ $category->category_description }}"
                                                                 class="mt-1 block w-full border border-gray-600 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" required> 
                                                         </div>
                                                         <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
-                                                            EDIT EVENT
+                                                             EDIT CATEGORY
                                                         </button>
                                                     </form>
                                                 </div>
@@ -136,13 +149,13 @@
                                         </div>
                                     </div>
 
-                                    <form action="{{ route('admin.delete_event',$event->id)}}" 
+                                    <form action="{{ route('admin.delete_event',$category->id)}}" 
                                         method="POST" 
-                                        onsubmit="return confirm('Are you sure you want to delete this event?');">
+                                        onsubmit="return confirm('Are you sure you want to delete this category?');">
                                         @csrf
                                         @method('DELETE')
 
-                                        <input type="text" value="{{$event->id}}" hidden>
+                                        <input type="text" value="{{$category->id}}" hidden>
                                         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
